@@ -1,0 +1,358 @@
+/* style.css */
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(#f7f7ff, #d5d6f5);
+    display: flex;
+    /* flex-direction: column; */
+    /* height: 100%; */
+    /* overflow: hidden; */
+    /* padding: 8rem 0 4rem; */
+    width: 100%;
+}
+
+.icons span {
+    margin: 0 5px;
+    font-size: 18px;
+}
+
+main {
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+
+
+.right-column {
+    flex: 1;
+}
+
+/* Cần thêm thư viện Font Awesome vào trước */
+.button-icon {
+  background-color: #4CAF50; /* Màu xanh lá cây */
+  /* color: white; */
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-icon i {
+  margin-right: 5px;
+}
+
+.search-container {
+    position: relative; /* Để định vị thanh tìm kiếm */
+}
+
+#search-bar {
+    width: 0; /* Ban đầu ẩn thanh tìm kiếm */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: absolute; /* Định vị tuyệt đối so với .search-container */
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%); /* Căn giữa theo chiều dọc */
+    transition: width 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+}
+
+.search-button {
+    /* ... (kiểu dáng cho nút tìm kiếm) ... */
+    cursor: pointer;
+}
+
+#search-bar:focus {
+    width: 200px; /* Độ rộng khi được focus */
+}
+
+.icons {
+    display: flex; /* Sử dụng flexbox để sắp xếp các phần tử con thẳng hàng */
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.icon-button, .search-container {
+    /* Đặt margin cho cả .icon-button và .search-container để tạo khoảng cách giữa các nút */
+    margin: 0 10px;
+}
+
+.icon-button {
+    color: white;
+    text-decoration: none;
+    margin: 0 12px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #5E61C0 /* Màu xanh đậm */;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.icon-button:hover {
+    background-color: #228B22;
+    transform: scale(1.05); /* Phóng to biểu tượng khi hover */
+}
+
+/* Các style trước đó */
+
+/* ... (các phần CSS khác) ... */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Căn chỉnh nội dung về phía đầu */
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding-top: 100px; /* Khoảng cách từ trên xuống */
+}
+
+.hero-img video {
+  max-width: 80%; /* Giới hạn chiều rộng tối đa của hình ảnh */
+  height: auto; /* Tự động điều chỉnh chiều cao để giữ tỷ lệ */
+  border-radius: 10px; /* Bo tròn góc (tùy chọn) */
+}
+
+.hero-content {
+    max-width: 800px; /* Giới hạn chiều rộng nội dung */
+    margin: 0 auto; /* Căn giữa nội dung */
+}
+
+.hero h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    color: white; /* Màu chữ trắng */
+    margin-bottom: 30px;
+}
+
+.check-essay-button {
+    background-color: #4CAF50;
+    /* color: white; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+/* ... (các phần CSS khác) ... */
+
+.check-section {
+    display: flex; /* Sử dụng Flexbox để sắp xếp */
+    justify-content: space-around; /* Khoảng cách giữa hai phần tử */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 50px 0;
+    width: 100%;
+    background: linear-gradient(to bottom, #d7dbff, #627fc5)
+}
+
+.check-content {
+    flex: 1; /* Phần nội dung chiếm 1 phần */
+    padding: 20px;
+    /* color: white; */
+    text-align: left; /* Căn lề trái cho nội dung */
+}
+
+.check-content h2 {
+    /* color: white; */
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.check-image {
+    flex: 1; /* Phần ảnh chiếm 1 phần */
+    padding: 2rem;
+}
+
+.check-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 12px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+}
+
+.reasons h2 {
+    margin-bottom: 30px;
+}
+
+
+/* Các style cho phần Why I should using AI IELTS now? */
+/* ... (các phần CSS khác) ... */
+
+.why-section {
+    padding: 50px 0;
+    /* text-align: center; */
+}
+.why-section h2 {
+    margin-bottom: 30px;
+    /* color: white; */
+}
+.reasons-container {
+    display: flex; /* Sử dụng Flexbox để sắp xếp */
+    justify-content: space-around; /* Khoảng cách giữa các phần tử */
+    flex-direction: row-reverse;
+}
+
+.reasons {
+    flex: 1; /* Phần reasons chiếm 1 phần không gian */
+    display: flex;
+    flex-direction: column; /* Sắp xếp các lý do theo chiều dọc */
+    gap: 30px; /* Khoảng cách giữa các lý do */
+}
+
+.reason {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Căn lề trái cho nội dung */
+}
+
+.reason img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.laptop-image {
+    flex: 1; /* Phần ảnh laptop chiếm 1 phần không gian */
+    padding: 20px;
+}
+
+.laptop-image img {
+    width: 100%;
+    /* height: 855px; */
+    border-radius: 10px;
+}
+
+
+/* Các style cho phần How can I use it? */
+.how-to-section {
+    padding: 50px 0;
+    /* text-align: center; */
+}
+
+.steps {
+    display: flex;
+    justify-content: normal;
+    flex-wrap: wrap;
+  text-align: center;
+}
+
+.how-to-section h2 {
+    /* color: white */
+    margin-bottom: 2rem;
+}
+.step {
+    /* min-width: 20%; */
+    margin-bottom: 20px;
+    margin-right: 5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.step span {
+    font-size: 30px;
+    font-weight: bold;
+    display: block;
+    color: #656DE4;
+    margin-bottom: 10px;
+}
+
+
+.container_YuUh {
+    display: grid;
+    gap: 4rem;
+    grid-template-areas: "c d e";
+    grid-template-columns: repeat(3, auto);
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    padding: 8rem 0 6rem;
+    width: 100%;
+}
+
+.container_SkMY, .container_YuUh, .wrapper_jdxG, .wrapper_q18N {
+    align-items: center;
+    justify-content: center;
+
+}
+*, .DocSearch-Container, .DocSearch-Container * {
+    box-sizing: border-box;
+}
+
+.main_rgTy {
+    align-items: center;
+    /* background: #f7f7ff; */
+    /* border: .5rem solid #414360;
+    border-radius: 1rem; */
+    display: flex;
+    flex-direction: column;
+    grid-area: d;
+    justify-content: center;
+    margin-right: -1rem;
+    padding: 4rem 2rem;
+    position: relative;
+    text-align: center;
+}
+.mainContent_thTZ {
+    position: relative;
+}
+
+.mainText_tNfa {
+    font-size: 4.375rem;
+    font-weight: 900;
+}
+
+.button_x6wU, .linkText_pcuQ, .linkText_pcuQ:hover, .mainText_tNfa, .subText_YdZt, .wrapper_AOiX, .wrapper_AOiX a {
+    color: var(--ifm-home-color-text);
+}
+
+.subText_YdZt {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.buttonContainer_PdLT {
+    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    margin-top: 2rem;
+}
+.button_x6wU {
+    background-color: #f7f7ff;
+    border: .25rem solid #414360;
+    border-radius: .5rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-weight: 600;
+    min-width: 10rem;
+    outline: 0;
+    padding: .75rem 1rem;
+}
+.buttonPrimary_yLaJ {
+    background-color: #414360;
+    color: #f7f7ff;
+}
+
+a {
+    color: hsl(256.3deg 55.13% 50.86%);
+    text-decoration: var(--ifm-link-decoration);
+}
+.menu__link:hover, a {
+    transition: 200ms cubic-bezier(0.08,0.52,0.52,1);
+}
