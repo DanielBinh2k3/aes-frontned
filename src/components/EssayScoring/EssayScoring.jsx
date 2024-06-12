@@ -152,23 +152,27 @@ const EssayScoring = () => {
                 <Modal.Title>Essay Analysis</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {loadingScore && loadingGrammar && (<Loading/>
+                <h4>Score</h4>
+                 {loadingScore && (<Loading/>
+                )} 
+                {successScore && (
+                <>
+                    
+                    <p>{scoreGeneral && scoreGeneral.score}</p>
+                </>   )}
+                {loadingGrammar && (<Loading/>
                 )}
                 {errorGrammar && (<Error err_msg={'Grammar error' + errorGrammar}/>
                 )}
                 {errorScore && (<Error err_msg={errorScore == `Network Error` ? 'Essay Scoring Maintanance' : errorScore}/>
                 )}
-                {successScore && (
-                <>
-                    <h5>Score</h5>
-                    <p>{scoreGeneral && scoreGeneral.score}</p>
-                </>   )}
+
                 {successGrammar && (
                 <>
                 {listing && listing.spellcheck && listing.spellcheck.corrections && listing.spellcheck.corrections.length > 0 ? (
                 listing.spellcheck.corrections.map((correction) => (
                     <div key={correction.id} className="correction">
-                    <h3>{correction.shortDescription}</h3>
+                    <h4>{correction.shortDescription}</h4>
                     <p>{correction.longDescription}</p>
                     <p>
                         <strong>Mistake:</strong> {correction.mistakeText}
