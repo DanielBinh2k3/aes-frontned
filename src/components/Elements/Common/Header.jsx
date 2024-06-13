@@ -87,14 +87,22 @@ function Header() {
           </Form>
           {userInfo ? (
           <Dropdown as={ButtonGroup} style={{"paddingLeft": "1.5rem"}}>
-            <Button variant="info"></Button>
+            <Button variant="outline-light">          
+            <img
+            src={userInfo.photoURL ? userInfo.photoURL
+            : "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"}
+            width="30"
+            height="30"
+            className="d-inline-block align-center"
+            alt="React Bootstrap logo"
+          /></Button>
 
-            <Dropdown.Toggle split variant="info" id="dropdown-split-basic" />
+            <Dropdown.Toggle split variant="outline-light" id="dropdown-split-basic" />
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+              <Dropdown.Item href="/user-profile">User Profile</Dropdown.Item>
+              <Dropdown.Item href="/payment">Subscribe Service</Dropdown.Item>
+              <Dropdown.Item href="logout">Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           ) : (

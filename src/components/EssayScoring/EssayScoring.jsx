@@ -5,13 +5,14 @@ import { createEssayGrammar, createEssayScore } from "../../ApiRequests/actions/
 import { useDispatch, useSelector } from "react-redux";
 import Error from '../Elements/Common/Error';
 import Loading from '../Elements/Common/Loading';
+import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet-async';
 
 const EssayScoring = () => {
     const essayTextareaRef = useRef(null);
     const dispatch = useDispatch();
     const [modalOpen, setModalOpen] = useState(false);
-
+    const [essayText, setEssayText] = useState('');
     const { listing, loading: loadingGrammar, error: errorGrammar, success: successGrammar } = useSelector((state) => state.essayGrammarCreate);
     const { scoreGeneral, loading: loadingScore, error: errorScore, success: successScore } = useSelector((state) => state.essayScoreCreate);
     const initialTime = 40 * 60; // 40 minutes in seconds
@@ -65,30 +66,36 @@ const EssayScoring = () => {
     const seconds = time % 60;
 
     const handleCheckGrammar = async () => {
-        const essayText = essayTextareaRef.current?.value;
-        if (essayText) {
+        const essayTextValue = essayTextareaRef.current?.value;
+        if (essayTextValue) {
             try {
                 await Promise.all([
-                    dispatch(createEssayGrammar({ text: essayText, topic: 'topic' })),
-                    dispatch(createEssayScore({ text: essayText, topic: 'topic' }))
+                    dispatch(createEssayGrammar({ text: essayTextValue, topic: 'topic' })),
+                    dispatch(createEssayScore({ text: essayTextValue, topic: 'topic' }))
                 ]);
-                console.log("Grammar and score checked for essay:", essayText);
-            // Reset the essay textarea
-            essayTextareaRef.current.value = '';
+                console.log("Grammar and score checked for essay:", essayTextValue);
+                // Update essayText state after successful dispatch
+                setEssayText(essayTextValue);
             } catch (error) {
                 console.error("Error checking grammar or scoring essay:", error);
             }
         } else {
-            console.log("Essay textarea is not available");
+            console.log("Essay textarea is empty");
         }
     };
-
+    String.prototype.replaceAt = function(index, replacement) {
+        return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+    }
+    const hadleCloseModal = () => {
+        // essayTextareaRef.current.value = '';
+        setModalOpen(false)
+    }
     useEffect(() => {
         if (successGrammar || successScore) {
             setModalOpen(true); // Open the modal
         }
     }, [successGrammar, successScore]);
-    console.log(errorScore)
+    console.log(essayText)
     return (
         <>
         <Helmet>
@@ -147,7 +154,7 @@ const EssayScoring = () => {
                     </div>
                 </div>
             </main>
-        <Modal show={modalOpen} onHide={() => setModalOpen(false)}>
+        <Modal show={modalOpen} onHide={hadleCloseModal}>
             <Modal.Header closeButton>
                 <Modal.Title>Essay Analysis</Modal.Title>
             </Modal.Header>
@@ -157,39 +164,59 @@ const EssayScoring = () => {
                 )} 
                 {successScore && (
                 <>
-                    
                     <p>{scoreGeneral && scoreGeneral.score}</p>
                 </>   )}
+                <h4>Grammar Feedback</h4>
                 {loadingGrammar && (<Loading/>
                 )}
                 {errorGrammar && (<Error err_msg={'Grammar error' + errorGrammar}/>
                 )}
                 {errorScore && (<Error err_msg={errorScore == `Network Error` ? 'Essay Scoring Maintanance' : errorScore}/>
                 )}
+{successGrammar && (
+    <>
+        {listing && listing.spellcheck && listing.spellcheck.corrections && listing.spellcheck.corrections.length > 0 ? (
+            <>
+            
+{(() => {
+    let correctedEssayText = essayText;
+    let offset = 0;
+    listing.spellcheck.corrections.forEach((correction) => {
+        let feedbackText = (
+            correctedEssayText.substring(correction.startIndex + offset, correction.endIndex + offset) +
+            ' (' + correction.shortDescription + ', ' + correction.correctionText + ')'
+        );
+        // Construct suggestions text
+        let suggestionsText = correction.suggestions.map((suggestion, index) => (
+            <span key={index}>{suggestion.text}{index !== correction.suggestions.length - 1 ? ', ' : ''}</span>
+        ));
+        feedbackText += ` Suggestions: ${suggestionsText}`;
 
-                {successGrammar && (
-                <>
-                {listing && listing.spellcheck && listing.spellcheck.corrections && listing.spellcheck.corrections.length > 0 ? (
-                listing.spellcheck.corrections.map((correction) => (
-                    <div key={correction.id} className="correction">
-                    <h4>{correction.shortDescription}</h4>
-                    <p>{correction.longDescription}</p>
-                    <p>
-                        <strong>Mistake:</strong> {correction.mistakeText}
-                    </p>
-                    <p>
-                        <strong>Correction:</strong> {correction.correctionText}
-                    </p>
-                    </div>
-                ))
-                ) : (
-                <p>No corrections found.</p>
-                )}
-                </>
-                )}
+        correctedEssayText = (
+            correctedEssayText.substring(0, correction.startIndex + offset) +
+            feedbackText +
+            correctedEssayText.substring(correction.endIndex + offset)
+        );
+        // Update offset
+        offset += feedbackText.length - (correction.endIndex - correction.startIndex);
+    });
+    return (
+        <div className="correction">
+            {correctedEssayText}
+        </div>
+    );
+})()}
+
+
+            </>
+        ) : (
+            <p>No corrections found.</p>
+        )}
+    </>
+)}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={() => setModalOpen(false)}>
+                <Button variant="secondary" onClick={hadleCloseModal}>
                     Close
                 </Button>
             </Modal.Footer>

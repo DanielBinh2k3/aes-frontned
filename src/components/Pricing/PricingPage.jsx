@@ -10,20 +10,20 @@ function PricingPage() {
               <div className="pricingTable">
                 <div className="pricingTable-header">
                   <i className="fa fa-adjust"></i>
-                  <div className="price-value"> $?0.00 <span className="month">per month</span> </div>
+                  <div className="price-value"> FREE <span className="month">per month</span> </div>
                 </div>
-                <h3 className="heading">Standard</h3>
+                <h3 className="heading">Starter</h3>
                 <div className="pricing-content">
                   <ul>
-                    <li><b>50GB</b> None</li>
-                    <li><b>50</b> None</li>
-                    <li><b>50GB</b> None</li>
-                    <li><b>10</b> None</li>
-                    <li><b>15</b> None</li>
+                    <li><b>Check essay</b>: 60</li>
+                    <li><b>Deep Score</b>: 2</li>
+                    <li><b>All Samples</b>: Access</li>
+                    <li><b>AI Support</b>: Free</li>
+                    <li><b>Facebook Support</b>: Low</li>
                   </ul>
                 </div>
                 <div className="pricingTable-signup">
-                  <a href="#">sign up</a>
+                  <a href="/payment">Start now</a>
                 </div>
               </div>
             </div>
@@ -32,20 +32,20 @@ function PricingPage() {
               <div className="pricingTable green">
                 <div className="pricingTable-header">
                   <i className="fa fa-briefcase"></i>
-                  <div className="price-value"> $?0.00 <span className="month">per month</span> </div>
+                  <div className="price-value"> ₫99.000 <span className="month">per month</span> </div>
                 </div>
-                <h3 className="heading">Business</h3>
+                <h3 className="heading">Standard</h3>
                 <div className="pricing-content">
                   <ul>
-                    <li><b>60GB</b> None</li>
-                    <li><b>60</b> None</li>
-                    <li><b>60GB</b> None</li>
-                    <li><b>15</b> None</li>
-                    <li><b>20</b> None</li>
+                    <li><b>Check essay</b>: 100</li>
+                    <li><b>Deep Score</b>: 100</li>
+                    <li><b>All Samples</b>: Access</li>
+                    <li><b>AI Support</b>: Free</li>
+                    <li><b>Facebook Support</b>: Medium</li>
                   </ul>
                 </div>
                 <div className="pricingTable-signup">
-                  <a href="#">sign up</a>
+                  <a href="/payment">sign up</a>
                 </div>
               </div>
             </div>
@@ -53,20 +53,20 @@ function PricingPage() {
               <div className="pricingTable blue">
                 <div className="pricingTable-header">
                   <i className="fa fa-diamond"></i>
-                  <div className="price-value"> $?0.00 <span className="month">per month</span> </div>
+                  <div className="price-value">₫149.000 <span className="month">per month</span> </div>
                 </div>
                 <h3 className="heading">Premium</h3>
                 <div className="pricing-content">
                   <ul>
-                    <li><b>70GB</b> None</li>
-                    <li><b>70</b> None</li>
-                    <li><b>70GB</b> None</li>
-                    <li><b>20</b> None</li>
-                    <li><b>25</b> None</li>
+                    <li><b>Check essay</b>: Unlimited</li>
+                    <li><b>Deep Score</b>: 200</li>
+                    <li><b>All Samples</b>: Access</li>
+                    <li><b>AI Support</b>: Free</li>
+                    <li><b>Facebook Support</b>: High</li>
                   </ul>
                 </div>
                 <div className="pricingTable-signup">
-                  <a href="#">sign up</a>
+                  <a href="/payment">sign up</a>
                 </div>
               </div>
             </div>
@@ -74,20 +74,21 @@ function PricingPage() {
               <div className="pricingTable red">
                 <div className="pricingTable-header">
                   <i className="fa fa-cube"></i>
-                  <div className="price-value"> $?0.00 <span className="month">per month</span> </div>
+                  <div className="price-value"> ₫249.00<span className="month">per month</span> </div>
                 </div>
-                <h3 className="heading">Extra</h3>
+                <h3 className="heading">Unlimited</h3>
                 <div className="pricing-content">
                   <ul>
-                    <li><b>80GB</b> None</li>
-                    <li><b>80</b> None</li>
-                    <li><b>80GB</b> None</li>
-                    <li><b>25</b> None</li>
-                    <li><b>30</b> None</li>
+                    <li><b>Check essay</b>: Unlimited</li>
+                    <li><b>Deep Score</b>: Unlimited</li>
+                    <li><b>Resource Writing</b>: Fully-Access</li>
+                    <li><b>All Samples</b>: Access</li>
+                    <li><b>AI Support</b>: Free</li>
+                    <li><b>Facebook Support</b>: High</li>
                   </ul>
                 </div>
                 <div className="pricingTable-signup">
-                  <a href="#">sign up</a>
+                  <a href="/payment">sign up</a>
                 </div>
               </div>
             </div>

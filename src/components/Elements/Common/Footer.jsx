@@ -46,16 +46,16 @@ const Footer = () => {
             Products
           </p>
           <p>
-            <a href="#!" className="text-reset">Angular</a>
+            <a href="/check-essay" className="text-reset">Check-Essay</a>
           </p>
           <p>
-            <a href="#!" className="text-reset">React</a>
+            <a href="/deep-score" className="text-reset">Deep Score</a>
           </p>
           <p>
-            <a href="#!" className="text-reset">Vue</a>
+            <a href="/user-profile" className="text-reset">User Profile</a>
           </p>
           <p>
-            <a href="#!" className="text-reset">Laravel</a>
+            <a href="https://www.facebook.com/AutomatedIELTSScoring" className="text-reset">Facebook</a>
           </p>
         </div>
 
@@ -65,16 +65,16 @@ const Footer = () => {
             Useful links
           </p>
           <p>
-            <a href="#!" className="text-reset">Pricing</a>
+            <a href="/price" className="text-reset">Pricing</a>
           </p>
           <p>
-            <a href="#!" className="text-reset">Settings</a>
+            <a href="/user-profile" className="text-reset">Settings</a>
           </p>
           <p>
-            <a href="#!" className="text-reset">Orders</a>
+            <a href="/" className="text-reset">Orders</a>
           </p>
           <p>
-            <a href="#!" className="text-reset">Help</a>
+            <a href="/" className="text-reset">Help</a>
           </p>
         </div>
 
