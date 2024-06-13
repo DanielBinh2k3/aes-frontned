@@ -23,7 +23,7 @@ function PricingPage() {
                   </ul>
                 </div>
                 <div className="pricingTable-signup">
-                  <a href="/payment">Start now</a>
+                  <a href="/check-essay">Start now</a>
                 </div>
               </div>
             </div>

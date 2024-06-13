@@ -5,7 +5,7 @@ function EssayDeepScoring() {
   return (
     <div className="page-draft">
       <div className="page-draft__editor">
-        <div className="root">
+        <div className="root-deep">
           <div className="description">
             <span className="t16">The essay checking service is available exclusively for our 🚀 Subsciribed users.</span>
             <p>If you want to see how the service works, please visit the demo page.</p>
