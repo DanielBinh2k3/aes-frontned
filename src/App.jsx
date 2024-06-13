@@ -15,18 +15,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import TopicPage from "./components/Topic/TopicPage";
 import SearchPage from "./components/Search/SearchPage";
 import LoginPage from "./components/Account/LoginPage";
-import TestPage from "./components/Account/TestPage";
-// import RegisterPage from "./components/Account/RegisterPage";
 import ResetPassPage from "./components/Account/ResetPassPage";
 import PaymentPage from "./components/Pricing/PaymentPage";
 import PricingPage from "./components/Pricing/PricingPage";
 import Chatbot from "./components/Chatbot/Chatbot";
 import ProfileScreen from "./components/Account/ProfileScreen";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import Notification from "./components/Elements/Common/Notification";
 import ProtectedRoute from "./components/Account/ProtectedRoute";
 import RegisterPage from "./components/Account/RegisterPage";
+import EssayDeepScoring from "./components/DeepScore/EssayDeepScoring";
 
 
 function App() {
@@ -48,6 +44,9 @@ function App() {
           <Route path="/pricing" element={<PricingPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/check-essay" element={<EssayScoring />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/deep-score" element={<EssayDeepScoring />} />
           </Route>
           <Route path="/" element={<Home />} />
           <Route path="/ielts-writing-samples" element={<SamplePage />} />

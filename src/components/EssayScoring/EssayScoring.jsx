@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap'; // Correct import from React Bootstrap
+import { Modal, Button, Container } from 'react-bootstrap';
 import './style.css';
 import { createEssayGrammar, createEssayScore } from "../../ApiRequests/actions/essayActions";
 import { useDispatch, useSelector } from "react-redux";
 import Error from '../Elements/Common/Error';
 import Loading from '../Elements/Common/Loading';
-import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet-async';
 
 const EssayScoring = () => {
@@ -20,7 +19,6 @@ const EssayScoring = () => {
     const [isRunning, setIsRunning] = useState(false);
     const [question, setQuestion] = useState('');
     const [inputWidth, setInputWidth] = useState('100px'); // Initial width
-
 
     const questions = [
         "Intelligence is the most important quality to be a leader. Do you agree or disagree?",
@@ -74,7 +72,6 @@ const EssayScoring = () => {
                     dispatch(createEssayScore({ text: essayTextValue, topic: 'topic' }))
                 ]);
                 console.log("Grammar and score checked for essay:", essayTextValue);
-                // Update essayText state after successful dispatch
                 setEssayText(essayTextValue);
             } catch (error) {
                 console.error("Error checking grammar or scoring essay:", error);
@@ -83,19 +80,51 @@ const EssayScoring = () => {
             console.log("Essay textarea is empty");
         }
     };
-    String.prototype.replaceAt = function(index, replacement) {
-        return this.substring(0, index) + replacement + this.substring(index + replacement.length);
-    }
-    const hadleCloseModal = () => {
-        // essayTextareaRef.current.value = '';
-        setModalOpen(false)
-    }
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
     useEffect(() => {
         if (successGrammar || successScore) {
             setModalOpen(true); // Open the modal
         }
     }, [successGrammar, successScore]);
-    console.log(essayText)
+
+    const renderCorrectedText = () => {
+        if (!listing || !listing.spellcheck || !listing.spellcheck.corrections) {
+            return essayText;
+        }
+
+        let correctedEssayText = essayText;
+        let offset = 0;
+
+        listing.spellcheck.corrections.forEach(correction => {
+        const correctionText = `<span style="color: red;">${correctedEssayText.substring(correction.startIndex + offset, correction.endIndex + 1 + offset)}</span> <span style="color: green;">(${correction.shortDescription}, Correction: ${correction.correctionText})</span>`;
+
+            correctedEssayText = correctedEssayText.substring(0, correction.startIndex + offset) +
+                correctionText +
+                correctedEssayText.substring(correction.endIndex + 1 + offset);
+            offset += correctionText.length - (correction.endIndex + 1 - correction.startIndex);
+        });
+
+        return correctedEssayText.replace(/\n/g, '<br />');
+    };
+
+    const handleDownload = () => {
+        const correctedText = renderCorrectedText(); // This should be HTML formatted text
+        const textToDownload = correctedText.replace(/<br \/>/g, '\n').replace(/<\/?[^>]+(>|$)/g, ""); // Replace <br /> with newlines and remove HTML tags
+        
+        const element = document.createElement("a");
+        const file = new Blob([textToDownload], { type: 'text/plain' });
+        element.href = URL.createObjectURL(file);
+        element.download = "essay_analysis.txt";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element); // Clean up the DOM
+    };
+
+
     return (
         <>
         <Helmet>
@@ -103,7 +132,7 @@ const EssayScoring = () => {
         </Helmet>
         <div>
             <main>
-                <div className="container">
+                <Container>
                     <div className="left-column">
                           <div className="input-box">
                             <input 
@@ -116,19 +145,20 @@ const EssayScoring = () => {
                             <Button variant='success' onClick={showRandomQuestion}>Random question</Button>
                         </div>
                         <textarea ref={essayTextareaRef} placeholder="Enter or paste essay"></textarea>
-                        <div className="upload-container">
+                        <div className="upload-container gap-3">
                             <input type="file" id="fileInput" accept=".txt,.doc,.docx" hidden />
-                            <label htmlFor="fileInput" className="upload-button">Upload File</label>
+                            <Button htmlFor="fileInput" variant='success' className="upload-button">Upload File</Button>
+                            <Button className="check-essay-Button" variant='success' onClick={handleCheckGrammar} disabled={loadingGrammar || loadingScore}>
+                                {loadingGrammar || loadingScore ? 'Checking...' : 'Check essay'}
+                            </Button>
+                            <Button className="upload-button" variant='success' id="timerButton" onClick={startCountdown}>
+                                Time: {minutes} min {seconds < 10 ? `0${seconds}` : seconds} sec
+                            </Button>    
                         </div>
+
                     </div>
-                    <div className="right-column">
-                        <button className="check-essay-button" onClick={handleCheckGrammar} disabled={loadingGrammar || loadingScore}>
-                            {loadingGrammar || loadingScore ? 'Checking...' : 'Check essay'}
-                        </button>
-                        <button className="timer" id="timerButton" onClick={startCountdown}>
-                            Time: {minutes} min {seconds < 10 ? `` : `${seconds} sec`} 
-                        </button>                        
-                        <div className="criteria-section">
+                       
+                        <div className="right-column criteria-section">
                             <h2>COHERENCE</h2>
                             <ul>
                                 <li>Logical structure</li>
@@ -145,83 +175,40 @@ const EssayScoring = () => {
                                 <li>Mix of complex & simple sentences</li>
                                 <li>Clear and correct grammar</li>
                             </ul>
-                            <h2>TASK ACHIEVEMENT</h2>
-                            <ul>
-                                <li>Complete response</li>
-                                <li>Appropriate word count</li>
-                            </ul>
                         </div>
-                    </div>
-                </div>
+                </Container>
             </main>
-        <Modal show={modalOpen} onHide={hadleCloseModal}>
-            <Modal.Header closeButton>
-                <Modal.Title>Essay Analysis</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <h4>Score</h4>
-                 {loadingScore && (<Loading/>
-                )} 
-                {successScore && (
-                <>
-                    <p>{scoreGeneral && scoreGeneral.score}</p>
-                </>   )}
-                <h4>Grammar Feedback</h4>
-                {loadingGrammar && (<Loading/>
-                )}
-                {errorGrammar && (<Error err_msg={'Grammar error' + errorGrammar}/>
-                )}
-                {errorScore && (<Error err_msg={errorScore == `Network Error` ? 'Essay Scoring Maintanance' : errorScore}/>
-                )}
-{successGrammar && (
-    <>
-        {listing && listing.spellcheck && listing.spellcheck.corrections && listing.spellcheck.corrections.length > 0 ? (
-            <>
-            
-{(() => {
-    let correctedEssayText = essayText;
-    let offset = 0;
-    listing.spellcheck.corrections.forEach((correction) => {
-        let feedbackText = (
-            correctedEssayText.substring(correction.startIndex + offset, correction.endIndex + offset) +
-            ' (' + correction.shortDescription + ', ' + correction.correctionText + ')'
-        );
-        // Construct suggestions text
-        let suggestionsText = correction.suggestions.map((suggestion, index) => (
-            <span key={index}>{suggestion.text}{index !== correction.suggestions.length - 1 ? ', ' : ''}</span>
-        ));
-        feedbackText += ` Suggestions: ${suggestionsText}`;
-
-        correctedEssayText = (
-            correctedEssayText.substring(0, correction.startIndex + offset) +
-            feedbackText +
-            correctedEssayText.substring(correction.endIndex + offset)
-        );
-        // Update offset
-        offset += feedbackText.length - (correction.endIndex - correction.startIndex);
-    });
-    return (
-        <div className="correction">
-            {correctedEssayText}
-        </div>
-    );
-})()}
-
-
-            </>
-        ) : (
-            <p>No corrections found.</p>
-        )}
-    </>
-)}
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={hadleCloseModal}>
-                    Close
-                </Button>
-            </Modal.Footer>
+            <Modal show={modalOpen} onHide={handleCloseModal} className='modal-lg'>
+                <Modal.Header closeButton>
+                    <Modal.Title>Essay Analysis</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h4>Score</h4>
+                    {loadingScore && (<Loading />)}
+                    {successScore && (<p>{scoreGeneral && scoreGeneral.score}</p>)}
+                    <h4>Grammar Feedback</h4>
+                    {loadingGrammar && (<Loading />)}
+                    {errorGrammar && (<Error err_msg={'Grammar error: ' + errorGrammar} />)}
+                    {errorScore && (<Error err_msg={errorScore === 'Network Error' ? 'Essay Scoring Maintenance' : errorScore} />)}
+                    {successGrammar && (
+                        <>
+                            {listing && listing.spellcheck && listing.spellcheck.corrections && listing.spellcheck.corrections.length > 0 ? (
+                                <div className="correction" dangerouslySetInnerHTML={{ __html: renderCorrectedText() }} />
+                            ) : (
+                                <p>No corrections found.</p>
+                            )}
+                        </>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={handleDownload}>
+                        Download
+                    </Button>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
             </Modal>
-  );
         </div>
         </>
     );
