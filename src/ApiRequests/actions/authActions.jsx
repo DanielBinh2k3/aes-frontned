@@ -14,13 +14,13 @@ export const registerUser = createAsyncThunk(
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const { user } = userCredential;
 
-      await addDoc(usersCollectionRef, {
-        uid: user.uid,
-        name,
-        email,
-        subscribtion: false,
-      });
-
+      // await addDoc(usersCollectionRef, {
+      //   uid: user.uid,
+      //   name,
+      //   email,
+      //   subscribtion: false,
+      // });
+      localStorage.setItem("userInfo", JSON.stringify(user));
       return {
         email: user.email,
         uid: user.uid,

@@ -10,11 +10,13 @@ import {
 	essaySampleReducer,
 	essayGrammarReducer,
 	essayLatestTopicReducer,
+	essayDeepScoringReducer,
 } from "./ApiRequests/reducers/essayReducers";
 import { authReducer, userReducer } from "./ApiRequests/reducers/authSlice"; // Import the authReducer
 
 const reducer = combineReducers({
 	essayScoreCreate: essayScoringReducer,
+	essayDeepScoreCreate: essayDeepScoringReducer,
 	essayGrammarCreate: essayGrammarReducer,
 	essayTopicGet: essayByTopicReducer,
 	essayDetailGet: essayDetailsReducer,

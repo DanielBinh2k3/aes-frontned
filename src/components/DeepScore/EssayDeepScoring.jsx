@@ -1,7 +1,36 @@
-import React from 'react';
-import './deepscore.css'
-
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import './deepscore.css';
+import { createEssayDeepScore } from '../../ApiRequests/actions/essayActions';
+import { Modal, Button } from 'react-bootstrap';
+import Loading from '../Elements/Common/Loading';
 function EssayDeepScoring() {
+  const dispatch = useDispatch();
+  const essayCheck = useSelector((state) => state.essayDeepScoreCreate);
+
+  const [essay, setEssay] = useState({
+    topic: '',
+    text: ''
+  });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEssay((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(essay)
+    dispatch(createEssayDeepScore(essay));
+    console.log(essayCheck)
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="page-draft">
       <div className="page-draft__editor">
@@ -40,7 +69,8 @@ function EssayDeepScoring() {
                 spellCheck="false"
                 data-gramm_editor="false"
                 placeholder="Enter or paste a question from Task 1 or Task 2"
-                className="content-editable "
+                className="content-editable"
+                onInput={(e) => setEssay({ ...essay, topic: e.currentTarget.textContent })}
               ></div>
             </div>
           </div>
@@ -52,6 +82,7 @@ function EssayDeepScoring() {
                 data-gramm_editor="false"
                 placeholder="Enter or paste your writing"
                 className="content-editable undefined"
+                onInput={(e) => setEssay({ ...essay, text: e.currentTarget.textContent })}
               ></div>
             </div>
           </div>
@@ -60,7 +91,10 @@ function EssayDeepScoring() {
       </div>
       <div className="page-draft__bands">
         <div className="page-draft__main-buttons">
-          <button className="button button_size_default button_theme_green2 with-radius">
+          <button 
+            className="button button_size_default button_theme_green2 with-radius"
+            onClick={handleSubmit}
+          >
             <div className="button__icon">
               <svg fill="white" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0z" fill="none"></path>
@@ -177,8 +211,35 @@ function EssayDeepScoring() {
           </div>
         </div>
       </div>
-    </div>
-  );
+      {/* Modal for displaying feedback */}
+      {/* Modal for displaying feedback */}
+      <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Essay Feedback</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {essayCheck.status === 'loading' && <Loading />}
+          {essayCheck.status === 'succeeded' && (
+            <div>
+              <div dangerouslySetInnerHTML={{ __html: essayCheck.response.response.messages[0].content }} />
+            </div>
+          )}
+          {essayCheck.status === 'failed' && (
+            <div>
+              <h3>Error</h3>
+              <p>{essayCheck.error}</p>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      </div>
+        );
 }
 
 export default EssayDeepScoring;

@@ -29,7 +29,7 @@ export const createEssayScore = createAsyncThunk(
   async (essayData, { rejectWithValue }) => {
     try {
       // const baseURL = import.meta.env.VITE_API_BASE_URL;
-      const postURL = `/render-api/check-essay`;
+      const postURL = `/google-api/check-essay`;
 
       console.log("API Post URL:", postURL); // Debug log for the URL
 
@@ -47,6 +47,30 @@ export const createEssayScore = createAsyncThunk(
     }
   }
 );
+
+export const createEssayDeepScore = createAsyncThunk(
+  'essayDeepScore/create',
+  async (essayData, { rejectWithValue }) => {
+    try {
+      // const baseURL = import.meta.env.VITE_API_BASE_URL;
+      const postURL = `/google-api/check-essay-deep-score`;
+
+      console.log("API Post URL:", postURL); // Debug log for the URL
+      const { data } = await axios.post(postURL, essayData);
+      console.log("Response Data:", data); // Log the response data
+
+      return data;
+    } catch (error) {
+      console.error("API Error:", error); // Debug log for the error
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      );
+    }
+  }
+);
+
 export const createEssayGrammar = createAsyncThunk(
   'essayGrammar/create',
   async (essayData, { rejectWithValue }) => {

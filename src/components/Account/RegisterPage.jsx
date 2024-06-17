@@ -8,6 +8,7 @@ import { registerUser } from '../../ApiRequests/actions/authActions';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from './firebase-config';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function RegisterPage() {
   const { register, handleSubmit } = useForm();
   const auth = getAuth();
   const usersCollectionRef = collection(db, 'users');
-
+  const navigate = useNavigate()
   const onSubmit = async (data) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
@@ -31,6 +32,8 @@ function RegisterPage() {
       dispatch(registerUser(data)).then((result) => {
         if (result.type === 'auth/registerUser/fulfilled' && success) {
           console.log("Sign Up successfully")
+          localStorage.
+          navigate("/")
         }
       });
     } catch (err) {
