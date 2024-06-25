@@ -29,7 +29,7 @@ export const createEssayScore = createAsyncThunk(
   async (essayData, { rejectWithValue }) => {
     try {
       // const baseURL = import.meta.env.VITE_API_BASE_URL;
-      const postURL = `/google-api/check-essay`;
+      const postURL = `/google-api/check-essay-lgbm`;
 
       console.log("API Post URL:", postURL); // Debug log for the URL
 

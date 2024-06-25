@@ -6,39 +6,30 @@ import Loading from '../Elements/Common/Loading';
 import Error from '../Elements/Common/Error';
 import { registerUser } from '../../ApiRequests/actions/authActions';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from './firebase-config';
 import { useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
   const dispatch = useDispatch();
   const { loading, error, success } = useSelector((state) => state.userRegister);
-  const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, setError } = useForm();
   const auth = getAuth();
-  const usersCollectionRef = collection(db, 'users');
-  const navigate = useNavigate()
-  const onSubmit = async (data) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      const { user } = userCredential;
+  const navigate = useNavigate();
 
-      await addDoc(usersCollectionRef, {
-        uid: user.uid,
-        name: data.name,
-        email: data.email,
-        subscription: false, // Corrected spelling of "subscription"
-      });
-
-      dispatch(registerUser(data)).then((result) => {
-        if (result.type === 'auth/registerUser/fulfilled' && success) {
-          console.log("Sign Up successfully")
-          localStorage.
-          navigate("/")
+ const onSubmit = async (data) => {
+    dispatch(registerUser(data))
+      .unwrap()
+      .then((result) => {
+        if (result && result.uid) {
+          console.log("Sign Up successfully");
+          window.location.href("/")
         }
+      })
+      .catch((err) => {
+        setError('email', {
+          type: 'manual',
+          message: err,
+        });
       });
-    } catch (err) {
-      console.error("Error creating user: ", err);
-    }
   };
 
   return (
