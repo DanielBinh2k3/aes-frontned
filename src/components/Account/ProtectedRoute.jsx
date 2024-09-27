@@ -8,7 +8,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 const ProtectedRoute = () => {
   const { userInfo } = useSelector((state) => state.userInfo)
   const [showNotification, setShowNotification] = useState(true);
-  const notificationMessage = "Pleaase log in to access this page."
+  const notificationMessage = "Please log in to access this page."
 
   // show unauthorized screen if no user is found in redux store
   if (!userInfo) {

@@ -1,4 +1,4 @@
-import { createEssayGrammar, createEssayScore } from "../actions/essayActions";
+import { createEssayGrammar, createEssayScore, createEssayDeepScore} from "../actions/essayActions";
 import {
 	ESSAY_BY_TOPIC_FAIL,
 	ESSAY_BY_TOPIC_REQUEST,
@@ -60,6 +60,32 @@ const essayGrammarSlice = createSlice({
 });
 
 export const essayGrammarReducer = essayGrammarSlice.reducer;
+
+const essayDeepScoreSlice = createSlice({
+  name: 'essayDeepCheck',
+  initialState: {
+    status: 'idle',
+    response: null,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createEssayDeepScore.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(createEssayDeepScore.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.response = action.payload;
+      })
+      .addCase(createEssayDeepScore.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload ? action.payload.error : action.error.message;
+      });
+  },
+});
+
+export const essayDeepScoringReducer = essayDeepScoreSlice.reducer;
 
 const essayScoreSlice = createSlice({
   name: 'essayGrammar',

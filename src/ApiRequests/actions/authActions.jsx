@@ -8,19 +8,11 @@ import { auth, db, providerFacebook, providerGoogle } from "../../components/Acc
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async ({ email, password, name }, { rejectWithValue }) => {
-    const usersCollectionRef = collection(db, 'users');
-
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const { user } = userCredential;
 
-      await addDoc(usersCollectionRef, {
-        uid: user.uid,
-        name,
-        email,
-        subscribtion: false,
-      });
-
+      localStorage.setItem("userInfo", JSON.stringify(user));
       return {
         email: user.email,
         uid: user.uid,

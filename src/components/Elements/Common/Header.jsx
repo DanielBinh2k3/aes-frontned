@@ -10,12 +10,30 @@ import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../../../ApiRequests/reducers/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { ButtonGroup, Dropdown } from 'react-bootstrap';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../Account/firebase-config';
 
+const handleLogout = async () => {
+  try {
+    await signOut(auth);
+    localStorage.removeItem("userInfo"); // Clear user info from localStorage
+    window.location.href = '/login'; // Redirect to login page after logout
+  } catch (error) {
+    console.error("Error logging out: ", error);
+  }
+};
 function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const { userInfo } = useSelector((state) => state.userInfo)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const handleLogoutClick = (e) => {
+    e.preventDefault(); // Prevent the default anchor behavior
+    const confirmed = window.confirm("Are you sure you want to log out?");
+    if (confirmed) {
+      handleLogout();
+    }
+  };
   // const confirmLogout = window.confirm("Are you sure you want to log out?");
   //   if (confirmLogout) {
   //     dispatch(logout());
@@ -102,7 +120,7 @@ function Header() {
             <Dropdown.Menu>
               <Dropdown.Item href="/user-profile">User Profile</Dropdown.Item>
               <Dropdown.Item href="/payment">Subscribe Service</Dropdown.Item>
-              <Dropdown.Item href="logout">Logout</Dropdown.Item>
+              <Dropdown.Item onClick={handleLogoutClick}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           ) : (

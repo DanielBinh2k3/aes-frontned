@@ -10,12 +10,15 @@ import Error from "../Elements/Common/Error";
 import Loading from "../Elements/Common/Loading";
 import { Helmet } from "react-helmet-async";
 import * as mammoth from 'mammoth';
+import Notification from "../Elements/Common/Notification";
 
 const EssayScoring = () => {
   const essayTextareaRef = useRef(null);
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const [essayText, setEssayText] = useState("");
+  const [showNotification, setShowNotification] = useState(true);
+
   const {
     listing,
     loading: loadingGrammar,
@@ -200,6 +203,11 @@ const EssayScoring = () => {
           <Container>
             <div className="left-column">
               <div className="input-box">
+                <Notification
+                  show={showNotification}
+                  message={"You have 60 essays scoring left"}
+                  onClose={() => setShowNotification(false)}
+                />
                 <input
                   type="text"
                   placeholder="Enter or paste question"
@@ -207,7 +215,7 @@ const EssayScoring = () => {
                   onChange={handleInputChange}
                   style={{ width: "100%" }} // Adjust width as needed
                 />
-                <Button variant="success" onClick={showRandomQuestion}>
+                <Button variant="outline-success" onClick={showRandomQuestion}>
                   Random question
                 </Button>
               </div>
@@ -224,7 +232,7 @@ const EssayScoring = () => {
                   onChange={handleFileUpload}
                 />
                 <Button
-                  variant="success"
+                  variant="secondary"
                   className="upload-button"
                   onClick={() => document.getElementById("fileInput").click()}
                 >
@@ -242,7 +250,7 @@ const EssayScoring = () => {
                 </Button>
                 <Button
                   className="upload-button"
-                  variant="success"
+                  variant="dark"
                   id="timerButton"
                   onClick={startCountdown}
                 >
