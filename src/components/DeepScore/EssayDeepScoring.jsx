@@ -219,9 +219,14 @@ function EssayDeepScoring() {
         </Modal.Header>
         <Modal.Body>
           {essayCheck.status === 'loading' && <Loading />}
-          {essayCheck.status === 'succeeded' && (
+          {essayCheck.status === 'succeeded' && essayCheck.response.response.messages &&(
             <div>
               <div dangerouslySetInnerHTML={{ __html: essayCheck.response.response.messages[0].content }} />
+            </div>
+          )}
+          {essayCheck.status === 'succeeded'  && (
+            <div>
+              <div dangerouslySetInnerHTML={{ __html: essayCheck.response.response.msg }} />
             </div>
           )}
           {essayCheck.status === 'failed' && (

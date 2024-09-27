@@ -53,7 +53,7 @@ export const createEssayDeepScore = createAsyncThunk(
   async (essayData, { rejectWithValue }) => {
     try {
       // const baseURL = import.meta.env.VITE_API_BASE_URL;
-      const postURL = `/google-api/check-essay-deep-score`;
+      const postURL = `/api/check-essay-deep-score`;
 
       console.log("API Post URL:", postURL); // Debug log for the URL
       const { data } = await axios.post(postURL, essayData);
